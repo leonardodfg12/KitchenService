@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using KitchenService.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Authorization;
 using OrderService.Application.Contracts;
 
 namespace KitchenService.API.Controllers;
@@ -11,6 +12,7 @@ public class KitchenServiceController(MongoOrderUpdater orderUpdater) : Controll
     /// <summary>
     /// Aceita um pedido específico.
     /// </summary>
+    [Authorize(Roles = "Admin, Cozinha")]
     [HttpPut("{id}")]
     public async Task<IActionResult> Aceitar(string id)
     {
@@ -21,6 +23,7 @@ public class KitchenServiceController(MongoOrderUpdater orderUpdater) : Controll
     /// <summary>
     /// Rejeita um pedido com justificativa.
     /// </summary>
+    [Authorize(Roles = "Admin, Cozinha")]
     [HttpPut("{id}")]
     public async Task<IActionResult> Rejeitar(string id, [FromBody] string justificativa)
     {
@@ -31,6 +34,7 @@ public class KitchenServiceController(MongoOrderUpdater orderUpdater) : Controll
     /// <summary>
     /// Cancela um pedido específico.
     /// </summary>
+    [Authorize(Roles = "Admin, Cozinha")]
     [HttpPut("{id}")]
     public async Task<IActionResult> Cancelar(string id)
     {
@@ -41,6 +45,7 @@ public class KitchenServiceController(MongoOrderUpdater orderUpdater) : Controll
     /// <summary>
     /// Lista todos os pedidos da base MongoDB.
     /// </summary>
+    [Authorize(Roles = "Admin, Cozinha")]
     [HttpGet]
     public async Task<IActionResult> ListarPedidos()
     {
