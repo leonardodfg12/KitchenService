@@ -49,6 +49,7 @@ public abstract class Program
 
         builder.Services.AddScoped<IKitchenDecisionRepository, MongoKitchenDecisionRepository>();
         builder.Services.AddScoped<KitchenServiceHandler>();
+        builder.Services.AddScoped<MongoOrderUpdater>();
 
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();

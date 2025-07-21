@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\KitchenService.Domain\KitchenService.Domain.csproj" />
+      <ProjectReference Include="..\KitchenService.Infrastructure\KitchenService.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

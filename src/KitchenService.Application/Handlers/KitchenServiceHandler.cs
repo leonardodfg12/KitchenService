@@ -1,6 +1,7 @@
 using KitchenService.Application.Contracts;
 using KitchenService.Domain.Entities;
 using KitchenService.Domain.Interfaces;
+using KitchenService.Infrastructure.Persistence;
 using MassTransit;
 using OrderService.Application.Contracts;
 
@@ -10,12 +11,15 @@ public class KitchenServiceHandler : IConsumer<OrderCreatedEvent>
 {
     private readonly ISendEndpointProvider _sendEndpointProvider;
     private readonly IKitchenDecisionRepository _repository;
+    private readonly MongoOrderUpdater _orderUpdater;
     private const string OrderStatusChangedEvent = "order-status-changed";
 
-    public KitchenServiceHandler(ISendEndpointProvider sendEndpointProvider, IKitchenDecisionRepository repository)
+    public KitchenServiceHandler(ISendEndpointProvider sendEndpointProvider, IKitchenDecisionRepository repository,
+        MongoOrderUpdater orderUpdater)
     {
         _sendEndpointProvider = sendEndpointProvider;
         _repository = repository;
+        _orderUpdater = orderUpdater;
     }
 
     public async Task Consume(ConsumeContext<OrderCreatedEvent> context)
@@ -30,7 +34,8 @@ public class KitchenServiceHandler : IConsumer<OrderCreatedEvent>
         };
 
         await _repository.AddAsync(decision);
-        
+        await _orderUpdater.UpdateOrderStatusAsync(order.Id, decision.Decision);
+
         var eventMessage = new OrderStatusChangedEvent
         {
             Id = decision.OrderId,
