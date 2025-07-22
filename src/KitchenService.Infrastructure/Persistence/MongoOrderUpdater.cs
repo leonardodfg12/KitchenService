@@ -12,7 +12,7 @@ public class MongoOrderUpdater(IMongoDatabase database)
         var filter = Builders<Order>.Filter.Eq(x => x.Id, orderId);
         var update = Builders<Order>.Update
             .Set(x => x.Status, newStatus)
-            .Set(x => x.Justificativa, justification)
+            .Set(x => x.Justification, justification)
             .Set(x => x.CreatedAt, DateTime.UtcNow);
 
         await _collection.UpdateOneAsync(filter, update);

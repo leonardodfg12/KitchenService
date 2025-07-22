@@ -12,6 +12,6 @@ public class Order
     public string DeliveryMethod { get; set; } = default!; // ex: "Retirada", "Entrega"
     public List<OrderItem> Items { get; set; } = new();
     public string Status { get; private set; } = "Pendente";
-    public string? Justificativa { get; set; }
+    public string? Justification { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }
